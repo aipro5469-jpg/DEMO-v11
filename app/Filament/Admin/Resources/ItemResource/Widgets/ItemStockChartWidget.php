@@ -59,8 +59,9 @@ class ItemStockChartWidget extends ChartWidget
                 $netChange += $movement->quantity;
             } elseif ($movement->type === 'out') {
                 $netChange -= $movement->quantity;
+            } elseif ($movement->type === 'adjustment') {
+                $netChange += $movement->quantity;
             }
-            // Adjustment logic depends on implementation, assuming it's a delta for now or ignored if complex
         }
 
         // Stock at start of 30 days ago
@@ -77,6 +78,8 @@ class ItemStockChartWidget extends ChartWidget
                     $runningStock += $movement->quantity;
                 } elseif ($movement->type === 'out') {
                     $runningStock -= $movement->quantity;
+                } elseif ($movement->type === 'adjustment') {
+                    $runningStock += $movement->quantity;
                 }
             }
 
