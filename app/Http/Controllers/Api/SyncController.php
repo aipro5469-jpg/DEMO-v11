@@ -154,10 +154,10 @@ class SyncController extends Controller
 
         if (in_array('field_reports', $entities)) {
             $query = FieldReport::where('updated_at', '>', $lastSync);
-            // TEMPORARY: Disable scoping
-            // if (!$user->hasRole(['super_admin', 'manager'])) {
-            //     $query->where('reporter_id', $user->id);
-            // }
+
+            if (!$user->hasRole(['super_admin', 'manager'])) {
+                $query->where('reporter_id', $user->id);
+            }
             $data['field_reports'] = $query->get();
         }
 
