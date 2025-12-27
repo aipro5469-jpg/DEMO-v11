@@ -126,12 +126,12 @@ class SyncController extends Controller
         if (in_array('clients', $entities)) {
             $query = Client::where('updated_at', '>', $lastSync);
             // TEMPORARY: Disable scoping to allow all users to see all clients
-            // if (!$user->hasRole(['super_admin', 'manager'])) {
-            //     $query->where(function ($q) use ($user) {
-            //         $q->where('created_by', $user->id)
-            //             ->orWhere('agent_id', $user->id);
-            //     });
-            // }
+            if (!$user->hasRole(['super_admin', 'manager'])) {
+                $query->where(function ($q) use ($user) {
+                    $q->where('created_by', $user->id)
+                        ->orWhere('agent_id', $user->id);
+                });
+            }
             $data['clients'] = $query->get();
         }
 
